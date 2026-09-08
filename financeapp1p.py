@@ -39,6 +39,11 @@ def plot_moving_averages(df):
     fig.update_layout(showlegend=True, height=600)
     st.plotly_chart(fig)
 
+def get_field(info, *candidates, default=None):
+    for key in candidates:
+        if key in info and info[key] is not None:
+            return info[key]
+    return default
 
 ### Part 3: Define the functionality of the three different pages - for each page one Python-function #####
 
@@ -78,9 +83,12 @@ def get_single_ticker_data():
     df, stock_info = get_stock_data(stock_symbol)
 
     # Display company name and current price
+    name = get_field(stock_info, 'longName', 'shortName')
+    price = get_field(stock_info, 'currentPrice', 'regularMarketPrice', 'previousClose')
+
     name = stock_info.get('longName') or stock_info.get('shortName') or stock_symbol
     st.markdown(f"**{name}**")
-    st.markdown(f"**Current Price: ${stock_info['currentPrice']}**")
+    st.markdown(f"**Current Price: ${price}**")
 
     # Display stock data charts
     st.subheader("Closing Prices")
