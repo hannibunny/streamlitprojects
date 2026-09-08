@@ -49,45 +49,45 @@ def search_ticker_symbol():
     foundrows=tickerdf[tickerdf["Name"].str.lower().str.contains(query)]
     #st.dataframe(foundrows[["Symbol","Name","Industry"]])
     st.dataframe(foundrows)
-    
+
 
 ###### Page 2: Analyse stock-development of a single company
 def get_single_ticker_data():
     st.subheader("Visualizing Stock Data")
-    
+
     #symbols,names=get_tickers(tickerfile)
     symbols=tickerdf["Symbol"].to_list()
     names=tickerdf["Name"].to_list()
-    
+
     # The following replacement is necessary, because tickersymbols of the provided tickerfile
     # slightly vary from tickersymbols required by yahoo-finance
     symbols=[str(s).replace("^","-P") for s in symbols] 
-    
+
     #nameindex={}
     #for s,n in zip(symbols,names):
     #    nameindex[s]=n
-    
+
     stock_symbol=st.selectbox("Select one tickersymbol",symbols)
-    
+
     #st.text("Selected ticker belongs to company %s"%(nameindex[stock_symbol]))
-    
+
     # Input field for stock symbol
     #stock_symbol = st.text_input("Enter stock symbol", value="NVDA").upper()
-    
+
     # Fetch stock data
     df, stock_info = get_stock_data(stock_symbol)
-    
+
     # Display company name and current price
     st.markdown(f"**{stock_info['longName']}**")
     st.markdown(f"**Current Price: ${stock_info['currentPrice']}**")
-    
+
     # Display stock data charts
     st.subheader("Closing Prices")
     plot_closing_data(df)
-    
+
     st.subheader("Volume of Trades")
     plot_volume_data(df)
-    
+
     st.subheader("Closing Price and Moving Averages")
     plot_moving_averages(df)
 
@@ -112,7 +112,7 @@ def select_and_compare():
         closings[sym]=sym_df["Close"].to_list()
     plot_multiple_closing_data(closings)
     st.dataframe(closings)
-        
+
 
 ### Part 4: The main programm
 
