@@ -83,10 +83,10 @@ def get_single_ticker_data():
     df, stock_info = get_stock_data(stock_symbol)
 
     # Display company name and current price
-    name = get_field(stock_info, 'longName', 'shortName')
+    name = get_field(stock_info, 'longName', 'shortName',default=stock_symbol)
     price = get_field(stock_info, 'currentPrice', 'regularMarketPrice', 'previousClose')
 
-    name = stock_info.get('longName') or stock_info.get('shortName') or stock_symbol
+    #name = stock_info.get('longName') or stock_info.get('shortName') or stock_symbol
     st.markdown(f"**{name}**")
     st.markdown(f"**Current Price: ${price}**")
 
